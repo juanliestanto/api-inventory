@@ -14,30 +14,28 @@ import java.util.Optional;
 public interface StaffRepository extends JpaRepository<Staff, String> {
 
     @Modifying
-    @Transactional
     @Query(value = """
-        INSERT INTO m_staff (name, phone, division,is_active) VALUES
-        (:#{#staff.name},
+        INSERT INTO m_staff (id, name, phone, division,is_active, user_id) VALUES
+        (:#{#staff.id},
+        :#{#staff.name},
         :#{#staff.phone},
         :#{#staff.division.name()},
-        :#{#staff.isActive});
+        :#{#staff.isActive},
+        :#{#staff.user.id});
     """, nativeQuery = true)
-    Staff insert (Staff staff);
+    void insert (Staff staff);
 
-    @Transactional
     @Query(value = """
         SELECT * FROM m_staff WHERE id = :#{#id} AND is_active = true;
     """, nativeQuery = true)
     Optional<Staff> findStaff(String id);
 
-    @Transactional
     @Query(value = """
         SELECT * FROM m_staff WHERE is_active = true;
     """, nativeQuery = true)
     List<Staff> findAllStaff();
 
     @Modifying
-    @Transactional
     @Query(value = """
         UPDATE m_staff SET 
         name = :#{#staff.name}, 
@@ -46,10 +44,9 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
         is_active = :#{#staff.isActive}
         WHERE id = :#{#staff.id};
     """, nativeQuery = true)
-    Staff update(Staff staff);
+    void update(Staff staff);
 
     @Modifying
-    @Transactional
     @Query(value = """
         UPDATE m_staff SET 
         is_active = false 

@@ -21,7 +21,8 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Staff create(Staff staff) {
-        return staffRepository.insert(staff);
+        staffRepository.insert(staff);
+        return staff;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.enigma.inventoryapps.model.entity.*;
 import com.enigma.inventoryapps.model.request.AuthRequest;
 import com.enigma.inventoryapps.model.response.LoginResponse;
 import com.enigma.inventoryapps.model.response.RegisterResponse;
+import com.enigma.inventoryapps.repository.AdminRepository;
 import com.enigma.inventoryapps.repository.UserRepository;
 import com.enigma.inventoryapps.security.JwtUtil;
 import com.enigma.inventoryapps.service.AdminService;
@@ -19,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 
 @Service
@@ -49,16 +52,18 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.insertAndFlush(user);
 
-        if(user.getRole().equals(ERole.ROLE_ADMIN)){
+        if(user.getRole().getName().equals(ERole.ROLE_ADMIN)){
             Admin admin =  Admin.builder()
+                    .id(UUID.randomUUID().toString())
                     .name(authRequest.getName())
                     .phone(authRequest.getPhone())
                     .isActive(true)
                     .user(user)
                     .build();
             adminService.create(admin);
-        }else if(user.getRole().equals(ERole.ROLE_STAFF)){
+        }else if(user.getRole().getName().equals(ERole.ROLE_STAFF)){
             Staff staff = Staff.builder()
+                    .id(UUID.randomUUID().toString())
                     .name(authRequest.getName())
                     .phone(authRequest.getPhone())
                     .division(authRequest.getDivision())

@@ -21,7 +21,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin create(Admin admin) {
-        return adminRepository.insert(admin);
+        adminRepository.insert(admin);
+        return admin;
     }
 
     @Override

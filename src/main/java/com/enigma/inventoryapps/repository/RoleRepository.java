@@ -9,24 +9,27 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
     @Modifying
-    @Transactional
     @Query(value = """
-        INSERT INTO t_role (role_name) VALUES
-        (:#{#role.roleName});
+        INSERT INTO t_role (id, name) VALUES
+        (:#{#role.id},
+        :#{#role.name.name()})
     """, nativeQuery = true)
-    Role insert (Role role);
+    void insert (Role role);
 
+    @Transactional
     default void insertAndFlush(Role role){
+        role.setId(UUID.randomUUID().toString());
         insert(role);
         flush();
     }
 
     @Query(value = """
-        SELECT * FROM t_role WHERE role_name = :#{#roleName.name()};
+        SELECT * FROM t_role WHERE name = :roleName
     """, nativeQuery = true)
-    Optional<Role> findByName(ERole roleName);
+    Optional<Role> getRoleName(String roleName);
 }

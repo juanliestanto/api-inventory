@@ -14,29 +14,27 @@ import java.util.Optional;
 public interface AdminRepository extends JpaRepository<Admin, String> {
 
     @Modifying
-    @Transactional
     @Query(value = """
-        INSERT INTO m_admin (name, phone,is_active) VALUES
-        (:#{#admin.name},
+        INSERT INTO m_admin (id, is_active,name, phone,user_id) VALUES
+        (:#{#admin.id},
+        :#{#admin.isActive},
+        :#{#admin.name},
         :#{#admin.phone},
-        :#{#admin.isActive});
+        :#{#admin.user.id});
     """, nativeQuery = true)
-    Admin insert (Admin admin);
+    void insert (Admin admin);
 
-    @Transactional
     @Query(value = """
         SELECT * FROM m_admin WHERE id = :#{#id} AND is_active = true;
     """, nativeQuery = true)
     Optional<Admin> findById(String id);
 
-    @Transactional
     @Query(value = """
         SELECT * FROM m_admin WHERE is_active = true;
     """, nativeQuery = true)
     List<Admin> findAll();
 
     @Modifying
-    @Transactional
     @Query(value = """
         UPDATE m_staff SET 
         name = :#{#admin.name}, 
@@ -44,10 +42,9 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
         is_active = :#{#admin.isActive}
         WHERE id = :#{#admin.id};
     """, nativeQuery = true)
-    Admin update(Admin admin);
+    void update(Admin admin);
 
     @Modifying
-    @Transactional
     @Query(value = """
         UPDATE m_admin SET 
         is_active = false 

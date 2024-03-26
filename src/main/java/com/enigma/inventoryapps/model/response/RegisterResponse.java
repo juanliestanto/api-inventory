@@ -10,5 +10,4 @@ import lombok.Data;
 public class RegisterResponse {
     private String email;
     private ERole role;
-    private EDivision division;
 }
