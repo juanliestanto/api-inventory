@@ -104,14 +104,14 @@ public class DemandServiceImpl implements DemandService {
 
         List<DemandDetailResponse> response = demand.getDemandDetailList().stream()
                 .map(mapping -> DemandDetailResponse.builder()
-                        .id(demandDetail.getId())
-                        .demandId(demandDetail.getDemand().getId())
-                        .item(demandDetail.getItem())
-                        .quantityRequest(demandDetail.getQuantityRequest())
-                        .status(EStatus.APPROVED)
-                        .quantityApprove(demandDetailRequest.getQuantityApprove())
-                        .updatedAt(Instant.now().toEpochMilli())
-                        .updatedBy(admin.getName())
+                        .id(mapping.getId())
+                        .demandId(mapping.getDemand().getId())
+                        .item(mapping.getItem())
+                        .quantityRequest(mapping.getQuantityRequest())
+                        .status(mapping.getStatus())
+                        .quantityApprove(mapping.getQuantityApprove())
+                        .updatedAt(mapping.getUpdatedAt())
+                        .updatedBy(mapping.getUpdatedBy())
                         .build()).toList();
 
         return DemandResponse.builder()
