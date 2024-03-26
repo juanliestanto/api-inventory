@@ -1,7 +1,6 @@
 package com.enigma.inventoryapps.model.entity;
 
 import com.enigma.inventoryapps.constant.DbPath;
-import com.enigma.inventoryapps.constant.EDivision;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,31 +12,27 @@ import java.util.List;
 
 @Data
 @Builder(toBuilder = true)
-@Table(name = DbPath.STAFF_SCHEMA)
+@Table(name = DbPath.DEMAND_SCHEMA)
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Staff {
+public class Demand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "staff_id")
+    private Staff staff;
 
-    private String phone;
+    @Column(name = "created_at")
+    private Long createdAt;
 
-    @Column(name = "is_active",nullable = false)
-    private Boolean isActive;
+    @Column(name = "updated_at")
+    private Long updatedAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @Enumerated(EnumType.STRING)
-    private EDivision division;
-
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(mappedBy = "demand")
     @JsonBackReference
-    private List<Demand> demandList;
+    private List<DemandDetail> demandDetailList;
 }
