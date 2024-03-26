@@ -32,7 +32,7 @@ public class Demand {
     @Column(name = "updated_at")
     private Long updatedAt;
 
-    @OneToMany(mappedBy = "demand")
+    @OneToMany(mappedBy = "demand", cascade = CascadeType.PERSIST)
     @JsonBackReference
     private List<DemandDetail> demandDetailList;
 }

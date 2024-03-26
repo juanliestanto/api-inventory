@@ -1,6 +1,7 @@
 package com.enigma.inventoryapps.model.response;
 
 import com.enigma.inventoryapps.model.entity.DemandDetail;
+import com.enigma.inventoryapps.model.request.DemandDetailRequest;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,5 +15,5 @@ public class DemandResponse {
     private String adminId;
     private Long createdAt;
     private Long updatedAt;
-    private List<DemandDetail> detailRequests;
+    private List<DemandDetailResponse> detailRequests;
 }
