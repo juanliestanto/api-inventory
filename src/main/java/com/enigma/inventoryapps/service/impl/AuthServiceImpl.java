@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
         return LoginResponse.builder()
                 .token(token)
                 .email(appUser.getUsername())
-                .role(appUser.getRole())
+                .role(appUser.getRole().name())
                 .build();
     }
 }
