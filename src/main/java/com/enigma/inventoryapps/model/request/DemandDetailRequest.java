@@ -6,7 +6,9 @@ import lombok.Data;
 @Data
 @Builder(toBuilder = true)
 public class DemandDetailRequest {
+    private String demandDetailId;
+    private String demandId;
     private String itemId;
     private int quantity;
-
+    private int quantityApprove;
 }

@@ -35,6 +35,7 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
     List<Admin> findAll();
 
     @Modifying
+    @Transactional
     @Query(value = """
         UPDATE m_admin SET 
         name = :#{#admin.name}, 
@@ -44,6 +45,7 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
     void update(Admin admin);
 
     @Modifying
+    @Transactional
     @Query(value = """
         UPDATE m_admin SET 
         is_active = false 

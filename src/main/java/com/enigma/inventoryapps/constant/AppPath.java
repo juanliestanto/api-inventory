@@ -10,4 +10,5 @@ public class AppPath {
     public static final String GET_BY_ID = "/{id}";
     public static final String SIGNUP = "/signup";
     public static final String SIGNIN = "/signin";
+    public static final String APPROVED = "/{adminId}/approve";
 }

@@ -2,6 +2,7 @@ package com.enigma.inventoryapps.controller;
 
 import com.enigma.inventoryapps.constant.AppPath;
 import com.enigma.inventoryapps.model.request.AuthRequest;
+import com.enigma.inventoryapps.model.request.DemandDetailRequest;
 import com.enigma.inventoryapps.model.request.DemandRequest;
 import com.enigma.inventoryapps.model.response.CommonResponse;
 import com.enigma.inventoryapps.model.response.DemandResponse;
@@ -11,10 +12,7 @@ import com.enigma.inventoryapps.service.DemandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +29,20 @@ public class DemandController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(CommonResponse.<DemandResponse>builder()
                         .statusCode(HttpStatus.CREATED.value())
-                        .message("Sucessfully register")
+                        .message("Sucessfully Request Demand")
+                        .data(demandResponse)
+                        .build());
+    }
+
+    @PostMapping(AppPath.APPROVED)
+    public ResponseEntity<?> approvedDemand (@PathVariable String adminId, @RequestBody DemandDetailRequest demandDetailRequest){
+
+        DemandResponse demandResponse = demandService.approveDemand(adminId, demandDetailRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(CommonResponse.<DemandResponse>builder()
+                        .statusCode(HttpStatus.CREATED.value())
+                        .message("Sucessfully Approved Demand")
                         .data(demandResponse)
                         .build());
     }

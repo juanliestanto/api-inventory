@@ -11,6 +11,10 @@ import lombok.Data;
 @Builder(toBuilder = true)
 public class DemandDetailResponse {
 
+    private String id;
+
+    private String demandId;
+
     private Item item;
 
     private EStatus status;
