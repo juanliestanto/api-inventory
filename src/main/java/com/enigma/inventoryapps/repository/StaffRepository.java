@@ -42,7 +42,7 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
         phone = :#{#staff.phone},
         division = :#{#staff.division.name()}, 
         is_active = :#{#staff.isActive}
-        WHERE id = :#{#staff.id};
+        WHERE id = :#{#staff.id}
     """, nativeQuery = true)
     void update(Staff staff);
 
@@ -50,7 +50,7 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     @Query(value = """
         UPDATE m_staff SET 
         is_active = false 
-        WHERE id = :#{#id};
+        WHERE id = :id
     """, nativeQuery = true)
     void delete(String id);
 }

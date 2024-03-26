@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AppUser loadUserById(String id) {
-        User userCredential = userRepository.findUserById(id).orElseThrow(() -> new UsernameNotFoundException("Invalid Credential"));
+        User userCredential = userRepository.findUserId(id).orElseThrow(() -> new UsernameNotFoundException("Invalid Credential"));
 
         return AppUser.builder()
                 .id(userCredential.getId())
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse findUserById(String id) {
-        User userCredential = userRepository.findUserById(id).orElseThrow(() -> new UsernameNotFoundException("Invalid Credential"));
+        User userCredential = userRepository.findUserId(id).orElseThrow(() -> new UsernameNotFoundException("Invalid Credential"));
 
         return UserResponse.builder()
                 .email(userCredential.getEmail())

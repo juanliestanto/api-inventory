@@ -31,13 +31,10 @@ public interface UserRepository extends JpaRepository<User, String> {
         flush();
     }
 
-    @Query(value = """
-        SELECT * FROM m_user WHERE email = :#{#email};
-    """, nativeQuery = true)
     Optional<User> findByEmail(String email);
 
     @Query(value = """
-        SELECT * FROM m_user WHERE id = :#{#id};
+        SELECT * FROM m_user WHERE id = :id
     """, nativeQuery = true)
-    Optional<User> findUserById(String id);
+    Optional<User> findUserId(String id);
 }

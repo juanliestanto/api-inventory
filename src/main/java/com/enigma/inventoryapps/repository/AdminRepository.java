@@ -36,11 +36,10 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
 
     @Modifying
     @Query(value = """
-        UPDATE m_staff SET 
+        UPDATE m_admin SET 
         name = :#{#admin.name}, 
-        phone = :#{#admin.phone}, 
-        is_active = :#{#admin.isActive}
-        WHERE id = :#{#admin.id};
+        phone = :#{#admin.phone}
+        WHERE id = :#{#admin.id}
     """, nativeQuery = true)
     void update(Admin admin);
 
@@ -48,7 +47,7 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
     @Query(value = """
         UPDATE m_admin SET 
         is_active = false 
-        WHERE id = :#{#id};
+        WHERE id = :id
     """, nativeQuery = true)
     void delete(String id);
 }

@@ -48,12 +48,11 @@ public class AdminServiceImpl implements AdminService {
     public AdminResponse update(AdminRequest adminRequest) {
         Admin adminId = this.getEntityById(adminRequest.getId());
 
-        Admin admin = Admin.builder()
-                .id(adminId.getId())
+        Admin admin = adminId.toBuilder()
                 .name(adminRequest.getName())
-                .phone(adminId.getPhone())
-                .isActive(true)
+                .phone(adminRequest.getPhone())
                 .build();
+
         adminRepository.update(admin);
         return AdminMapper.mapToResponse(admin);
     }
