@@ -3,11 +3,13 @@ package com.enigma.inventoryapps.model.entity;
 import com.enigma.inventoryapps.constant.DbPath;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Table(name = DbPath.USER_SCHEMA)
+@Builder(toBuilder = true)
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

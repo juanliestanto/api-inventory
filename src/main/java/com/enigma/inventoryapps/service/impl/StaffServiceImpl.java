@@ -32,12 +32,12 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Staff getEntityById(String id) {
-        return staffRepository.findById(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND), "Staff Not Found"));
+        return staffRepository.findStaff(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND), "Staff Not Found"));
     }
 
     @Override
     public List<StaffResponse> getAll() {
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffRepository.findAllStaff();
         List<StaffResponse> responses = staffList.stream()
                 .map(StaffMapper::mapToResponse).toList();
         return responses;

@@ -25,7 +25,6 @@ public interface RoleRepository extends JpaRepository<Role, String> {
         flush();
     }
 
-    @Transactional
     @Query(value = """
         SELECT * FROM t_role WHERE role_name = :#{#roleName.name()};
     """, nativeQuery = true)
