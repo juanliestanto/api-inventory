@@ -13,6 +13,8 @@ import java.util.UUID;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
+
+    //Query Native
     @Modifying
     @Query(value = """
         INSERT INTO t_role (id, name) VALUES
@@ -21,6 +23,7 @@ public interface RoleRepository extends JpaRepository<Role, String> {
     """, nativeQuery = true)
     void insert (Role role);
 
+    //Implement Save and Flush Query Native
     @Transactional
     default void insertAndFlush(Role role){
         role.setId(UUID.randomUUID().toString());
@@ -28,6 +31,7 @@ public interface RoleRepository extends JpaRepository<Role, String> {
         flush();
     }
 
+    //Query Native
     @Query(value = """
         SELECT * FROM t_role WHERE name = :roleName
     """, nativeQuery = true)
