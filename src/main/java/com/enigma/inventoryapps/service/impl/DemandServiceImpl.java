@@ -35,7 +35,7 @@ public class DemandServiceImpl implements DemandService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public DemandResponse requestDemand(DemandRequest demandRequest) {
-        //TODO GET STAFF BY ID
+        //TODO VALIDATE STAFF BY ID
         Staff staff = staffService.getEntityById(demandRequest.getStaffId());
 
         //TODO SET DEMAND DETAIL REQUEST TO DEMAND DETAIL
@@ -92,14 +92,19 @@ public class DemandServiceImpl implements DemandService {
 
     @Override
     public DemandResponse approveDemand(String adminId, DemandDetailRequest demandDetailRequest) {
+        //TODO VALIDATE ADMIN BY ID
         Admin admin = adminService.getEntityById(adminId);
 
+        //TODO VALIDATE DEMAND BY ID
         Demand demand = demandRepository.findById(demandDetailRequest.getDemandId()).orElseThrow(()->new ResponseStatusException((HttpStatus.NOT_FOUND),"Demand Not Found"));
 
+        //TODO VALIDATE DEMAND DETAIL BY ID
         DemandDetail demandDetail = demanDetailService.findById(demandDetailRequest.getDemandDetailId());
 
-        if(demandDetail.getQuantityRequest() <= demandDetailRequest.getQuantityApprove()) throw new DataIntegrityViolationException("BAD REQUEST(nominal value is greater than the limit)");
+        // TODO CHECK WHETHER THE QUANTITY RECEIVED IS NOT GREATER THAN THE DEMAND QUANTITY AND STOCK OF ITEMS
+        if(demandDetail.getQuantityRequest() <= demandDetailRequest.getQuantityApprove() && demandDetail.getItem().getStock() <= demandDetailRequest.getQuantityApprove()) throw new DataIntegrityViolationException("BAD REQUEST(nominal value is greater than the limit)");
 
+        //TODO SET DEMAND DETAIL STATUS TO APPROVE AND SET QUANTITY APPROVE
         DemandDetail responseDemandDetail = demandDetail.toBuilder()
                 .status(EStatus.APPROVED)
                 .quantityApprove(demandDetailRequest.getQuantityApprove())
@@ -113,6 +118,7 @@ public class DemandServiceImpl implements DemandService {
         demanDetailService.created(responseDemandDetail);
         demandRepository.saveAndFlush(demand);
 
+        //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE AND SET NEW STOCK
         List<DemandDetailResponse> response = demand.getDemandDetailList().stream()
                 .map(mapping -> {
                     Item item = itemService.getEntityById(mapping.getItem().getId());
@@ -127,13 +133,16 @@ public class DemandServiceImpl implements DemandService {
 
     @Override
     public DemandResponse rejectDemand(String adminId, DemandDetailRequest demandDetailRequest) {
-
+        //TODO VALIDATE ADMIN BY ID
         Admin admin = adminService.getEntityById(adminId);
 
+        //TODO VALIDATE DEMAND BY ID
         Demand demand = demandRepository.findById(demandDetailRequest.getDemandId()).orElseThrow(()->new ResponseStatusException((HttpStatus.NOT_FOUND),"Demand Not Found"));
 
+        //TODO VALIDATE DEMAND DETAIL BY ID
         DemandDetail demandDetail = demanDetailService.findById(demandDetailRequest.getDemandDetailId());
 
+        //TODO SET DEMAND DETAIL STATUS TO REJECTED
         DemandDetail responseDemandDetail = demandDetail.toBuilder()
                 .status(EStatus.REJECTED)
                 .updatedAt(Instant.now().toEpochMilli())
@@ -146,10 +155,7 @@ public class DemandServiceImpl implements DemandService {
         demanDetailService.created(responseDemandDetail);
         demandRepository.saveAndFlush(demand);
 
-        demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
-        demanDetailService.created(responseDemandDetail);
-        demandRepository.saveAndFlush(demand);
-
+        //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE
         List<DemandDetailResponse> response = demand.getDemandDetailList().stream()
                 .map(DemandDetailMapper::mapToResponse).toList();
 
