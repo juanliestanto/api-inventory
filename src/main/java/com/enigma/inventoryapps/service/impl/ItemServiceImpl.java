@@ -22,12 +22,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemResponse create(ItemRequest itemRequest) {
-        Item item = Item.builder()
-                .name(itemRequest.getName())
-                .stock(itemRequest.getStock())
-                .unit(itemRequest.getUnit())
-                .isActive(true)
-                .build();
+        Item item = ItemMapper.mapToEntity(itemRequest);
         itemRepository.save(item);
         return ItemMapper.mapToResponse(item);
     }

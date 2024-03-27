@@ -15,6 +15,15 @@ public class ItemMapper {
                 .build();
     }
 
+    public static Item mapToEntity(ItemRequest itemRequest){
+        return Item.builder()
+                .name(itemRequest.getName())
+                .stock(itemRequest.getStock())
+                .unit(itemRequest.getUnit())
+                .isActive(true)
+                .build();
+    }
+
     public static ItemRequest mapToRequest(Item item){
         return ItemRequest.builder()
                 .id(item.getId())
