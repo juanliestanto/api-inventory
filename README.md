@@ -20,6 +20,31 @@ This is an example of how to list things you need to use the software and how to
 - PgAdmin or other PostgreSQL DBMS
 - Postman or other API Testing Apps like Swagger.ui
 
+### Installation
+
+1. Clone the repo
+   sh
+   https://github.com/juanliestanto/api-inventory.git
+
+2. Edit application.properties Config
+```properties
+   spring.datasource.username=YOUR_DATABASE_USERNAME
+   spring.datasource.password=YOUR_DATABASE_PASSWORD
+   spring.datasource.url=jdbc:postgresql://localhost:5432/YOUR_DATABASE_NAME
+   spring.datasource.driver-class-name=org.postgresql.Driver
+   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+   spring.jpa.hibernate.ddl-auto=update
+   spring.jpa.show-sql=true
+   app.shopee.jwt.jwt-secret = secretajalah
+   app.shopee.jwt.jwt-name = Inventory Apps
+   app.shopee.jwt.jwt-expired = 3600
+   ```
+
+
+3. Install all dependencies and run Maven reload
+
+4. Then run the project
+
 # Features
 ### Auth
 - APP User :
