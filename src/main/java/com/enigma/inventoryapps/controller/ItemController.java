@@ -28,7 +28,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(CommonResponse.<ItemResponse>builder()
                         .statusCode(HttpStatus.CREATED.value())
-                        .message("Successfully created item")
+                        .message("Successfully Created Item")
                         .data(itemResponse)
                         .build());
     }
@@ -40,7 +40,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<ItemResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get item by id")
+                        .message("Successfully Get Item By Id")
                         .data(itemResponse)
                         .build());
     }
@@ -52,7 +52,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<List<ItemResponse>>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get all item")
+                        .message("Successfully Get All Item")
                         .data(itemResponses)
                         .build());
     }
@@ -64,7 +64,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<ItemResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully updated item")
+                        .message("Successfully Updated Item")
                         .data(itemResponse)
                         .build());
     }
@@ -76,7 +76,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully delete item by id")
+                        .message("Successfully Delete Item By Id")
                         .build());
     }
 }
