@@ -2,6 +2,8 @@ package com.enigma.inventoryapps.service.impl;
 
 import com.enigma.inventoryapps.constant.EStatus;
 import com.enigma.inventoryapps.model.entity.*;
+import com.enigma.inventoryapps.model.mapper.DemandDetailMapper;
+import com.enigma.inventoryapps.model.mapper.DemandMapper;
 import com.enigma.inventoryapps.model.mapper.ItemMapper;
 import com.enigma.inventoryapps.model.request.DemandDetailRequest;
 import com.enigma.inventoryapps.model.request.DemandRequest;
@@ -33,10 +35,14 @@ public class DemandServiceImpl implements DemandService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public DemandResponse requestDemand(DemandRequest demandRequest) {
+        //TODO GET STAFF BY ID
         Staff staff = staffService.getEntityById(demandRequest.getStaffId());
 
+        //TODO SET DEMAND DETAIL REQUEST TO DEMAND DETAIL
         List<DemandDetail> details = demandRequest.getDetailRequests().stream()
                 .map(orderDetailRequest -> {
+
+                    //TODO VALIDATE ITEM BY ID
                     Item item = itemService.getEntityById(orderDetailRequest.getItemId());
                     return DemandDetail.builder()
                             .item(item)
@@ -46,6 +52,7 @@ public class DemandServiceImpl implements DemandService {
                             .build();
                 }).toList();
 
+        //TODO CREATE NEW DEMAND
         Demand demand = Demand.builder()
                 .staff(staff)
                 .createdAt(Instant.now().toEpochMilli())
@@ -53,7 +60,7 @@ public class DemandServiceImpl implements DemandService {
                 .demandDetailList(details)
                 .build();
 
-
+        //TODO SET DEMAND TO DEMAND DETAIL
         List<DemandDetail> updateDemandDetails = details.stream()
                 .map(demands -> {
                     demands.setDemand(demand);
@@ -63,6 +70,7 @@ public class DemandServiceImpl implements DemandService {
 
         demandRepository.saveAndFlush(demand);
 
+        //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE
         List<DemandDetailResponse> detailResponses = updateDemandDetails.stream()
                 .map(mapping -> DemandDetailResponse.builder()
                         .id(mapping.getId())
@@ -111,27 +119,10 @@ public class DemandServiceImpl implements DemandService {
                     item.setStock(mapping.getItem().getStock() - mapping.getQuantityApprove());
                     ItemRequest itemRequest = ItemMapper.mapToRequest(item);
                     itemService.create(itemRequest);
-                    return DemandDetailResponse.builder()
-                            .id(mapping.getId())
-                            .demandId(mapping.getDemand().getId())
-                            .item(mapping.getItem())
-                            .quantityRequest(mapping.getQuantityRequest())
-                            .status(mapping.getStatus())
-                            .quantityApprove(mapping.getQuantityApprove())
-                            .updatedAt(mapping.getUpdatedAt())
-                            .updatedBy(mapping.getUpdatedBy())
-                            .note(mapping.getNote())
-                            .build();
+                    return DemandDetailMapper.mapToResponse(mapping);
                 }).toList();
 
-        return DemandResponse.builder()
-                .demandId(demand.getId())
-                .staffId(demand.getStaff().getId())
-                .adminId(admin.getId())
-                .createdAt(demand.getCreatedAt())
-                .updatedAt(demand.getUpdatedAt())
-                .detailRequests(response)
-                .build();
+        return DemandMapper.mapToResponse(demand, admin, response);
     }
 
     @Override
@@ -160,25 +151,8 @@ public class DemandServiceImpl implements DemandService {
         demandRepository.saveAndFlush(demand);
 
         List<DemandDetailResponse> response = demand.getDemandDetailList().stream()
-                .map(mapping -> DemandDetailResponse.builder()
-                        .id(mapping.getId())
-                        .demandId(mapping.getDemand().getId())
-                        .item(mapping.getItem())
-                        .quantityRequest(mapping.getQuantityRequest())
-                        .status(mapping.getStatus())
-                        .quantityApprove(mapping.getQuantityApprove())
-                        .updatedAt(mapping.getUpdatedAt())
-                        .updatedBy(mapping.getUpdatedBy())
-                        .note(mapping.getNote())
-                        .build()).toList();
+                .map(DemandDetailMapper::mapToResponse).toList();
 
-        return DemandResponse.builder()
-                .demandId(demand.getId())
-                .staffId(demand.getStaff().getId())
-                .adminId(admin.getId())
-                .createdAt(demand.getCreatedAt())
-                .updatedAt(demand.getUpdatedAt())
-                .detailRequests(response)
-                .build();
+        return DemandMapper.mapToResponse(demand, admin, response);
     }
 }
