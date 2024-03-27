@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     ResponseEntity<?> createItem(@RequestBody ItemRequest itemRequest){
         ItemResponse itemResponse = itemService.create(itemRequest);
 
@@ -60,6 +62,7 @@ public class ItemController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     ResponseEntity<?> updateItem(@RequestBody ItemRequest itemRequest){
         ItemResponse itemResponse = itemService.update(itemRequest);
 
@@ -72,6 +75,7 @@ public class ItemController {
     }
 
     @DeleteMapping(AppPath.GET_BY_ID)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     ResponseEntity<?> deleteItemById(@PathVariable String id){
         itemService.delete(id);
 

@@ -12,7 +12,7 @@ public class StaffMapper {
     public static StaffResponse mapToResponse(Staff staff){
         return StaffResponse.builder()
                 .id(staff.getId())
-                .name(staff.getPhone())
+                .name(staff.getName())
                 .phone(staff.getPhone())
                 .division(staff.getDivision().name())
                 .build();

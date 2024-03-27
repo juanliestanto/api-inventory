@@ -108,8 +108,6 @@ public class DemandServiceImpl implements DemandService {
                 .map(mapping -> {
                     Item item = itemService.getEntityById(mapping.getItem().getId());
                     item.setStock(mapping.getItem().getStock() - mapping.getQuantityApprove());
-                    ItemRequest itemRequest = ItemMapper.mapToRequest(item);
-                    itemService.create(itemRequest);
                     return DemandDetailMapper.mapToResponse(mapping);
                 }).toList();
 

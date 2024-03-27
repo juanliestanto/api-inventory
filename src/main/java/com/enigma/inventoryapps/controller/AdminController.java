@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class AdminController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     ResponseEntity<?> updateAdmin(@RequestBody AdminRequest adminRequest){
         AdminResponse adminResponse = adminService.update(adminRequest);
 
@@ -58,6 +60,7 @@ public class AdminController {
     }
 
     @DeleteMapping(AppPath.GET_BY_ID)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     ResponseEntity<?> deleteAdminById(@PathVariable String id){
         adminService.delete(id);
 

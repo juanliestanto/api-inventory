@@ -29,8 +29,11 @@ public class DemandMapper {
                         .demandId(mapping.getDemand().getId())
                         .item(mapping.getItem())
                         .quantityRequest(mapping.getQuantityRequest())
+                        .quantityApprove(mapping.getQuantityApprove())
                         .status(mapping.getStatus())
                         .updatedAt(Instant.now().toEpochMilli())
+                        .updatedBy(mapping.getUpdatedBy())
+                        .note(mapping.getNote())
                         .build()).toList();
 
         return DemandResponse.builder()
