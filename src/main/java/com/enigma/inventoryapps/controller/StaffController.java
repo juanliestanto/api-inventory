@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class StaffController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ROLE_STAFF')")
     ResponseEntity<?> updateStaff(@RequestBody StaffRequest staffRequest){
         StaffResponse staffResponses = staffService.update(staffRequest);
 
@@ -58,6 +60,7 @@ public class StaffController {
     }
 
     @DeleteMapping(AppPath.GET_BY_ID)
+    @PreAuthorize("hasAnyRole('ROLE_STAFF')")
     ResponseEntity<?> deleteStaffById(@PathVariable String id){
         staffService.delete(id);
 
