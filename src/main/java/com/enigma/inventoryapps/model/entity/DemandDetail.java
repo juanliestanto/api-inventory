@@ -43,4 +43,6 @@ public class DemandDetail {
     @Column(name = "updated_at")
     private Long updatedAt;
 
+    private String note;
+
 }

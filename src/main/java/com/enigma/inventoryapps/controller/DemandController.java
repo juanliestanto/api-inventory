@@ -39,10 +39,23 @@ public class DemandController {
 
         DemandResponse demandResponse = demandService.approveDemand(adminId, demandDetailRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<DemandResponse>builder()
-                        .statusCode(HttpStatus.CREATED.value())
+                        .statusCode(HttpStatus.OK.value())
                         .message("Sucessfully Approved Demand")
+                        .data(demandResponse)
+                        .build());
+    }
+
+    @PostMapping(AppPath.REJECTED)
+    public ResponseEntity<?> rejecteDemand (@PathVariable String adminId, @RequestBody DemandDetailRequest demandDetailRequest){
+
+        DemandResponse demandResponse = demandService.rejectDemand(adminId, demandDetailRequest);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.<DemandResponse>builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Sucessfully Reject Demand")
                         .data(demandResponse)
                         .build());
     }

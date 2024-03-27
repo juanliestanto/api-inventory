@@ -2,8 +2,10 @@ package com.enigma.inventoryapps.service.impl;
 
 import com.enigma.inventoryapps.constant.EStatus;
 import com.enigma.inventoryapps.model.entity.*;
+import com.enigma.inventoryapps.model.mapper.ItemMapper;
 import com.enigma.inventoryapps.model.request.DemandDetailRequest;
 import com.enigma.inventoryapps.model.request.DemandRequest;
+import com.enigma.inventoryapps.model.request.ItemRequest;
 import com.enigma.inventoryapps.model.response.DemandDetailResponse;
 import com.enigma.inventoryapps.model.response.DemandResponse;
 import com.enigma.inventoryapps.repository.DemandRepository;
@@ -95,8 +97,63 @@ public class DemandServiceImpl implements DemandService {
                 .quantityApprove(demandDetailRequest.getQuantityApprove())
                 .updatedAt(Instant.now().toEpochMilli())
                 .updatedBy(admin.getName())
+                .note(demandDetailRequest.getNote())
                 .demand(demand)
                 .build();
+
+        demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
+        demanDetailService.created(responseDemandDetail);
+        demandRepository.saveAndFlush(demand);
+
+        List<DemandDetailResponse> response = demand.getDemandDetailList().stream()
+                .map(mapping -> {
+                    Item item = itemService.getEntityById(mapping.getItem().getId());
+                    item.setStock(mapping.getItem().getStock() - mapping.getQuantityApprove());
+                    ItemRequest itemRequest = ItemMapper.mapToRequest(item);
+                    itemService.create(itemRequest);
+                    return DemandDetailResponse.builder()
+                            .id(mapping.getId())
+                            .demandId(mapping.getDemand().getId())
+                            .item(mapping.getItem())
+                            .quantityRequest(mapping.getQuantityRequest())
+                            .status(mapping.getStatus())
+                            .quantityApprove(mapping.getQuantityApprove())
+                            .updatedAt(mapping.getUpdatedAt())
+                            .updatedBy(mapping.getUpdatedBy())
+                            .note(mapping.getNote())
+                            .build();
+                }).toList();
+
+        return DemandResponse.builder()
+                .demandId(demand.getId())
+                .staffId(demand.getStaff().getId())
+                .adminId(admin.getId())
+                .createdAt(demand.getCreatedAt())
+                .updatedAt(demand.getUpdatedAt())
+                .detailRequests(response)
+                .build();
+    }
+
+    @Override
+    public DemandResponse rejectDemand(String adminId, DemandDetailRequest demandDetailRequest) {
+
+        Admin admin = adminService.getEntityById(adminId);
+
+        Demand demand = demandRepository.findById(demandDetailRequest.getDemandId()).orElseThrow(()->new ResponseStatusException((HttpStatus.NOT_FOUND),"Demand Not Found"));
+
+        DemandDetail demandDetail = demanDetailService.findById(demandDetailRequest.getDemandDetailId());
+
+        DemandDetail responseDemandDetail = demandDetail.toBuilder()
+                .status(EStatus.REJECTED)
+                .updatedAt(Instant.now().toEpochMilli())
+                .updatedBy(admin.getName())
+                .note(demandDetailRequest.getNote())
+                .demand(demand)
+                .build();
+
+        demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
+        demanDetailService.created(responseDemandDetail);
+        demandRepository.saveAndFlush(demand);
 
         demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
         demanDetailService.created(responseDemandDetail);
@@ -112,6 +169,7 @@ public class DemandServiceImpl implements DemandService {
                         .quantityApprove(mapping.getQuantityApprove())
                         .updatedAt(mapping.getUpdatedAt())
                         .updatedBy(mapping.getUpdatedBy())
+                        .note(mapping.getNote())
                         .build()).toList();
 
         return DemandResponse.builder()

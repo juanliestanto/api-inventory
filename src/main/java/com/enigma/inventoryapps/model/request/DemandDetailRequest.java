@@ -11,4 +11,5 @@ public class DemandDetailRequest {
     private String itemId;
     private int quantity;
     private int quantityApprove;
+    private String note;
 }

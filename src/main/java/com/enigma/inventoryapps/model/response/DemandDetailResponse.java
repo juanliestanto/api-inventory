@@ -10,20 +10,13 @@ import lombok.Data;
 @Data
 @Builder(toBuilder = true)
 public class DemandDetailResponse {
-
     private String id;
-
     private String demandId;
-
     private Item item;
-
     private EStatus status;
-
     private int quantityRequest;
-
     private int quantityApprove;
-
     private String updatedBy;
-
     private Long updatedAt;
+    private String note;
 }
