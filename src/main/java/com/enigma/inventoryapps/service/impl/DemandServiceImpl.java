@@ -91,6 +91,7 @@ public class DemandServiceImpl implements DemandService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public DemandResponse approveDemand(String adminId, DemandDetailRequest demandDetailRequest) {
         //TODO VALIDATE ADMIN BY ID
         Admin admin = adminService.getEntityById(adminId);
@@ -132,6 +133,7 @@ public class DemandServiceImpl implements DemandService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public DemandResponse rejectDemand(String adminId, DemandDetailRequest demandDetailRequest) {
         //TODO VALIDATE ADMIN BY ID
         Admin admin = adminService.getEntityById(adminId);
