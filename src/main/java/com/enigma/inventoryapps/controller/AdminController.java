@@ -20,7 +20,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @GetMapping(AppPath.GET_BY_ID)
-    ResponseEntity<?> getStaffById(@PathVariable String id){
+    ResponseEntity<?> getAdminById(@PathVariable String id){
         AdminResponse adminResponse = adminService.getById(id);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -32,7 +32,7 @@ public class AdminController {
     }
 
     @GetMapping
-    ResponseEntity<?> getAllStaff(){
+    ResponseEntity<?> getAllAdmin(){
         List<AdminResponse> adminResponses = adminService.getAll();
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -44,7 +44,7 @@ public class AdminController {
     }
 
     @PutMapping
-    ResponseEntity<?> updateStaff(@RequestBody AdminRequest adminRequest){
+    ResponseEntity<?> updateAdmin(@RequestBody AdminRequest adminRequest){
         AdminResponse adminResponse = adminService.update(adminRequest);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -56,7 +56,7 @@ public class AdminController {
     }
 
     @DeleteMapping(AppPath.GET_BY_ID)
-    ResponseEntity<?> deleteStaffById(@PathVariable String id){
+    ResponseEntity<?> deleteAdminById(@PathVariable String id){
         adminService.delete(id);
 
         return ResponseEntity.status(HttpStatus.OK)
