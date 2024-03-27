@@ -14,6 +14,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
+    //Query Native
     @Modifying
     @Query(value = """
         INSERT INTO m_user (id,email, password, role_id) VALUES
@@ -24,6 +25,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     """, nativeQuery = true)
     void insert (User user);
 
+    //Implement Save and Flush Query Native
     @Transactional
     default void insertAndFlush(User user){
         user.setId(UUID.randomUUID().toString());
@@ -31,8 +33,10 @@ public interface UserRepository extends JpaRepository<User, String> {
         flush();
     }
 
+    //Query Method From Jpa Repository
     Optional<User> findByEmail(String email);
 
+    //Query Native
     @Query(value = """
         SELECT * FROM m_user WHERE id = :id
     """, nativeQuery = true)
