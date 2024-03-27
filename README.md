@@ -3,7 +3,7 @@
 Project, an online items request application. This application aims to make it easier for staff and administration to manage requests for items in the office. The staff will request several items from the admin (administration) according to the number of stock items available and the admin can process the request (approve or reject). Admin can manage the quantity received regarding item requests and provide a note.
 
 ### ERD(Entity Relational Diagram)
-![erd](./Manajemen Inventory.png)
+![erd](./Manajemen_Inventory.png)
 
 ### Build With
 - [Springboot v3.2.4](https://spring.io/)
