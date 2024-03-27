@@ -39,12 +39,15 @@ public class DemandServiceImpl implements DemandService {
         //TODO VALIDATE STAFF BY ID
         Staff staff = staffService.getEntityById(demandRequest.getStaffId());
 
+
         //TODO SET DEMAND DETAIL REQUEST TO DEMAND DETAIL
         List<DemandDetail> details = demandRequest.getDetailRequests().stream()
                 .map(orderDetailRequest -> {
 
                     //TODO VALIDATE ITEM BY ID
                     Item item = itemService.getEntityById(orderDetailRequest.getItemId());
+                    // TODO CHECK WHETHER THE QUANTITY RECEIVED IS NOT GREATER THAN THE DEMAND QUANTITY AND STOCK OF ITEMS
+                    if(orderDetailRequest.getQuantity() > item.getStock()) throw new DataIntegrityViolationException("BAD REQUEST(nominal value is greater than the limit)");
                     return DemandDetail.builder()
                             .item(item)
                             .quantityRequest(orderDetailRequest.getQuantity())

@@ -9,12 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @OpenAPIDefinition(info = @Info(
-        title = "Enigmat-shop",
-        version = "1.0",
-        contact =  @Contact(
-                name = "Enigma Camp",
-                url = "https://enigmacamp.com/"
-        )
+        title = "inventory-apps",
+        version = "1.0"
 ))
 @SecurityScheme(
         name = "Bearer configuration",
