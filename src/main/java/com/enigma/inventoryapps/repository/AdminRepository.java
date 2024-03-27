@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, String> {
 
+    //Query Native Insert Data
     @Modifying
     @Query(value = """
         INSERT INTO m_admin (id, is_active,name, phone,user_id) VALUES
@@ -24,16 +25,19 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
     """, nativeQuery = true)
     void insert (Admin admin);
 
+    //Override JpaRepository interface(Query Native Select)
     @Query(value = """
         SELECT * FROM m_admin WHERE id = :#{#id} AND is_active = true;
     """, nativeQuery = true)
     Optional<Admin> findById(String id);
 
+    //Override JpaRepository interface(Query Native Select)
     @Query(value = """
         SELECT * FROM m_admin WHERE is_active = true;
     """, nativeQuery = true)
     List<Admin> findAll();
 
+    //Query Native Update
     @Modifying
     @Transactional
     @Query(value = """
@@ -44,6 +48,7 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
     """, nativeQuery = true)
     void update(Admin admin);
 
+    //Query Native SoftDelete
     @Modifying
     @Transactional
     @Query(value = """
