@@ -48,12 +48,10 @@ public class StaffServiceImpl implements StaffService {
     public StaffResponse update(StaffRequest staffRequest) {
         Staff staffId = this.getEntityById(staffRequest.getId());
 
-        Staff staff = Staff.builder()
-                .id(staffId.getId())
+        Staff staff = staffId.toBuilder()
                 .name(staffRequest.getName())
                 .phone(staffRequest.getPhone())
                 .division(staffRequest.getDivision())
-                .isActive(true)
                 .build();
         staffRepository.update(staff);
         return StaffMapper.mapToResponse(staff);
