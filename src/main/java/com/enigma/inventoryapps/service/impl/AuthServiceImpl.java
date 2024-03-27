@@ -2,10 +2,13 @@ package com.enigma.inventoryapps.service.impl;
 
 import com.enigma.inventoryapps.constant.ERole;
 import com.enigma.inventoryapps.model.entity.*;
+import com.enigma.inventoryapps.model.mapper.AdminMapper;
+import com.enigma.inventoryapps.model.mapper.RoleMapper;
+import com.enigma.inventoryapps.model.mapper.StaffMapper;
+import com.enigma.inventoryapps.model.mapper.UserMapper;
 import com.enigma.inventoryapps.model.request.AuthRequest;
 import com.enigma.inventoryapps.model.response.LoginResponse;
 import com.enigma.inventoryapps.model.response.RegisterResponse;
-import com.enigma.inventoryapps.repository.AdminRepository;
 import com.enigma.inventoryapps.repository.UserRepository;
 import com.enigma.inventoryapps.security.JwtUtil;
 import com.enigma.inventoryapps.service.AdminService;
@@ -38,38 +41,20 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(rollbackOn = Exception.class)
     public RegisterResponse register(AuthRequest authRequest) {
         //TODO SET ROLE
-        Role role = Role.builder()
-                .name(authRequest.getRole())
-                .build();
+        Role role = RoleMapper.mapToEntity(authRequest);
         role = roleService.getOrSave(role);
 
         //TODO SET USER CREDENTIALS
-        User user = User.builder()
-                .email(authRequest.getEmail())
-                .password(passwordEncoder.encode(authRequest.getPassword()))
-                .role(role)
-                .build();
+        User user = UserMapper.mapToEntity(authRequest, role, passwordEncoder);
 
         userRepository.insertAndFlush(user);
 
+        //TODO SET ENTITY (ADMIN/STAFF)
         if(user.getRole().getName().equals(ERole.ROLE_ADMIN)){
-            Admin admin =  Admin.builder()
-                    .id(UUID.randomUUID().toString())
-                    .name(authRequest.getName())
-                    .phone(authRequest.getPhone())
-                    .isActive(true)
-                    .user(user)
-                    .build();
+            Admin admin = AdminMapper.mapToEntity(authRequest, user);
             adminService.create(admin);
         }else if(user.getRole().getName().equals(ERole.ROLE_STAFF)){
-            Staff staff = Staff.builder()
-                    .id(UUID.randomUUID().toString())
-                    .name(authRequest.getName())
-                    .phone(authRequest.getPhone())
-                    .division(authRequest.getDivision())
-                    .isActive(true)
-                    .user(user)
-                    .build();
+            Staff staff = StaffMapper.mapToEntity(authRequest, user);
             staffService.create(staff);
         }
 
