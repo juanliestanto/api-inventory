@@ -29,7 +29,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<RegisterResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Sucessfully register")
+                        .message("Sucessfully Register")
                         .data(registerResponse)
                         .build());
     }
