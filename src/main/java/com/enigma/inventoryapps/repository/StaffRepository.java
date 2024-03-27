@@ -45,8 +45,7 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
         UPDATE m_staff SET 
         name = :#{#staff.name}, 
         phone = :#{#staff.phone},
-        division = :#{#staff.division.name()}, 
-        is_active = :#{#staff.isActive}
+        division = :#{#staff.division.name()}
         WHERE id = :#{#staff.id}
     """, nativeQuery = true)
     void update(Staff staff);
