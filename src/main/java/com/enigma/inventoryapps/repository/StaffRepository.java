@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, String> {
 
+    //Query Native
     @Modifying
     @Query(value = """
         INSERT INTO m_staff (id, name, phone, division,is_active, user_id) VALUES
@@ -25,17 +26,21 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     """, nativeQuery = true)
     void insert (Staff staff);
 
+    //Query Native
     @Query(value = """
         SELECT * FROM m_staff WHERE id = :#{#id} AND is_active = true;
     """, nativeQuery = true)
     Optional<Staff> findStaff(String id);
 
+    //Query Native
     @Query(value = """
         SELECT * FROM m_staff WHERE is_active = true;
     """, nativeQuery = true)
     List<Staff> findAllStaff();
 
+    //Query Native
     @Modifying
+    @Transactional
     @Query(value = """
         UPDATE m_staff SET 
         name = :#{#staff.name}, 
@@ -46,7 +51,9 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     """, nativeQuery = true)
     void update(Staff staff);
 
+    //Query Native
     @Modifying
+    @Transactional
     @Query(value = """
         UPDATE m_staff SET 
         is_active = false 
