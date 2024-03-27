@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,24 +71,7 @@ public class DemandServiceImpl implements DemandService {
 
         demandRepository.saveAndFlush(demand);
 
-        //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE
-        List<DemandDetailResponse> detailResponses = updateDemandDetails.stream()
-                .map(mapping -> DemandDetailResponse.builder()
-                        .id(mapping.getId())
-                        .demandId(mapping.getDemand().getId())
-                        .item(mapping.getItem())
-                        .quantityRequest(mapping.getQuantityRequest())
-                        .status(mapping.getStatus())
-                        .updatedAt(Instant.now().toEpochMilli())
-                        .build()).toList();
-
-        return DemandResponse.builder()
-                .demandId(demand.getId())
-                .staffId(demandRequest.getStaffId())
-                .createdAt(demand.getCreatedAt())
-                .updatedAt(demand.getUpdatedAt())
-                .detailRequests(detailResponses)
-                .build();
+        return DemandMapper.mapToResponse(demand, updateDemandDetails);
     }
 
     @Override
@@ -129,7 +113,7 @@ public class DemandServiceImpl implements DemandService {
                     return DemandDetailMapper.mapToResponse(mapping);
                 }).toList();
 
-        return DemandMapper.mapToResponse(demand, admin, response);
+        return DemandMapper.mapToResponseTransaction(demand, admin, response);
     }
 
     @Override
@@ -161,6 +145,23 @@ public class DemandServiceImpl implements DemandService {
         List<DemandDetailResponse> response = demand.getDemandDetailList().stream()
                 .map(DemandDetailMapper::mapToResponse).toList();
 
-        return DemandMapper.mapToResponse(demand, admin, response);
+        return DemandMapper.mapToResponseTransaction(demand, admin, response);
+    }
+
+    @Override
+    public DemandResponse getDemandById(String id) {
+        Demand demand = demandRepository.findById(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND),"Demand Not Found"));
+        return DemandMapper.mapToResponse(demand, demand.getDemandDetailList());
+    }
+
+    @Override
+    public List<DemandResponse> getAllDemand() {
+        List<Demand> demand = demandRepository.findAll();
+        List<DemandResponse> response = new ArrayList<>();
+
+        for(Demand demands : demand){
+            response.add(DemandMapper.mapToResponse(demands, demands.getDemandDetailList()));
+        }
+        return response;
     }
 }
