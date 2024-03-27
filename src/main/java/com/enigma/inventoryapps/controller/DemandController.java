@@ -28,7 +28,7 @@ public class DemandController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_STAFF')")
-    public ResponseEntity<?> requestDemand (@RequestBody DemandRequest demandRequest){
+    public ResponseEntity<?> itemDemand (@RequestBody DemandRequest demandRequest){
 
         DemandResponse demandResponse = demandService.requestDemand(demandRequest);
 
