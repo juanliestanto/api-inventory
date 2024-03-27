@@ -26,7 +26,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<AdminResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get admin by id")
+                        .message("Successfully Get Admin By Id")
                         .data(adminResponse)
                         .build());
     }
@@ -38,7 +38,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<List<AdminResponse>>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get all admin")
+                        .message("Successfully Get All Admin")
                         .data(adminResponses)
                         .build());
     }
@@ -50,7 +50,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<AdminResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully updated admin")
+                        .message("Successfully Updated Admin")
                         .data(adminResponse)
                         .build());
     }
@@ -62,7 +62,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully delete admin by id")
+                        .message("Successfully Delete Admin By Id")
                         .build());
     }
 }
