@@ -5,6 +5,7 @@ import com.enigma.inventoryapps.model.request.AdminRequest;
 import com.enigma.inventoryapps.model.response.AdminResponse;
 import com.enigma.inventoryapps.model.response.CommonResponse;
 import com.enigma.inventoryapps.service.AdminService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppPath.ADMIN)
+@SecurityRequirement(name = "Bearer configuration")
 public class AdminController {
 
     private final AdminService adminService;

@@ -7,6 +7,7 @@ import com.enigma.inventoryapps.model.response.AdminResponse;
 import com.enigma.inventoryapps.model.response.CommonResponse;
 import com.enigma.inventoryapps.model.response.ItemResponse;
 import com.enigma.inventoryapps.service.ItemService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppPath.ITEM)
+@SecurityRequirement(name = "Bearer configuration")
 public class ItemController {
 
     private final ItemService itemService;

@@ -4,6 +4,7 @@ import com.enigma.inventoryapps.constant.AppPath;
 import com.enigma.inventoryapps.model.response.CommonResponse;
 import com.enigma.inventoryapps.model.response.UserResponse;
 import com.enigma.inventoryapps.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppPath.USER)
+@SecurityRequirement(name = "Bearer configuration")
 public class UserController {
 
     private final UserService userService;

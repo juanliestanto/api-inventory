@@ -5,6 +5,7 @@ import com.enigma.inventoryapps.model.request.StaffRequest;
 import com.enigma.inventoryapps.model.response.CommonResponse;
 import com.enigma.inventoryapps.model.response.StaffResponse;
 import com.enigma.inventoryapps.service.StaffService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppPath.STAFF)
+@SecurityRequirement(name = "Bearer configuration")
 public class StaffController {
 
     private final StaffService staffService;
