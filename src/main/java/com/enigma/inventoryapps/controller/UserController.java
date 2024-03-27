@@ -27,7 +27,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<UserResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get user")
+                        .message("Successfully Get User")
                         .data(userResponse)
                         .build());
     }
