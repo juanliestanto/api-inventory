@@ -26,7 +26,7 @@ public class StaffController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<StaffResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get staff by id")
+                        .message("Successfully Get Staff By Id")
                         .data(staffResponse)
                         .build());
     }
@@ -38,7 +38,7 @@ public class StaffController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<List<StaffResponse>>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get all staff")
+                        .message("Successfully Get All Staff")
                         .data(staffResponses)
                         .build());
     }
@@ -50,7 +50,7 @@ public class StaffController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<StaffResponse>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully updated staff")
+                        .message("Successfully Updated Staff")
                         .data(staffResponses)
                         .build());
     }
@@ -62,7 +62,7 @@ public class StaffController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully delete staff by id")
+                        .message("Successfully Delete Staff By Id")
                         .build());
     }
 }
