@@ -16,11 +16,12 @@ public class DemandDetailServiceImpl implements DemanDetailService {
 
     @Override
     public DemandDetail created(DemandDetail demandDetail) {
-        return demandDetailRepository.saveAndFlush(demandDetail);
+        demandDetailRepository.insertAndFlush(demandDetail);
+        return demandDetail;
     }
 
     @Override
     public DemandDetail findById(String id) {
-        return demandDetailRepository.findById(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND), "Demand Detail Not Found"));
+        return demandDetailRepository.findDemandDetail(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND), "Demand Detail Not Found"));
     }
 }
