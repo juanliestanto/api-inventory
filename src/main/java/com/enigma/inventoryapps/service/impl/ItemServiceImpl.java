@@ -23,7 +23,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemResponse create(ItemRequest itemRequest) {
         Item item = ItemMapper.mapToEntity(itemRequest);
-        itemRepository.save(item);
+        itemRepository.insert(item);
         return ItemMapper.mapToResponse(item);
     }
 
@@ -35,12 +35,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item getEntityById(String id) {
-        return itemRepository.findById(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND), "Item Not Found"));
+        return itemRepository.findItem(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND), "Item Not Found"));
     }
 
     @Override
     public List<ItemResponse> getAllItem() {
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemRepository.findAllItem();
         List<ItemResponse> responses = items.stream()
                 .map(ItemMapper::mapToResponse).toList();
         return responses;
@@ -55,16 +55,13 @@ public class ItemServiceImpl implements ItemService {
                 .stock(itemRequest.getStock())
                 .unit(itemRequest.getUnit())
                 .build();
-        itemRepository.save(item);
+        itemRepository.update(item);
         return ItemMapper.mapToResponse(item);
     }
 
     @Override
     public void delete(String id) {
         Item itemId = this.getEntityById(id);
-        Item item = itemId.toBuilder()
-                .isActive(false)
-                .build();
-        itemRepository.save(item);
+        itemRepository.delete(itemId);
     }
 }
