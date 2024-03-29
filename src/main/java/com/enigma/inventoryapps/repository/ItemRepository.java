@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, String> {
 
-    //Query Native
+    //Query Native Insert Data
     @Modifying
     @Query(value = """
         INSERT INTO m_item (id, name, stock, unit,is_active) VALUES
@@ -26,19 +26,19 @@ public interface ItemRepository extends JpaRepository<Item, String> {
     """, nativeQuery = true)
     void insert (Item item);
 
-    //Query Native
+    //Query Native Select Item By Id
     @Query(value = """
         SELECT * FROM m_item WHERE id = :#{#id} AND is_active = true;
     """, nativeQuery = true)
     Optional<Item> findItem(String id);
 
-    //Query Native
+    //Query Native Select All Item
     @Query(value = """
         SELECT * FROM m_item WHERE is_active = true;
     """, nativeQuery = true)
     List<Item> findAllItem();
 
-    //Query Native
+    //Query Native Update Item
     @Modifying
     @Transactional
     @Query(value = """
@@ -50,7 +50,7 @@ public interface ItemRepository extends JpaRepository<Item, String> {
     """, nativeQuery = true)
     void update(Item item);
 
-    //Query Native
+    //Query Native Soft Delete Item
     @Modifying
     @Transactional
     @Query(value = """

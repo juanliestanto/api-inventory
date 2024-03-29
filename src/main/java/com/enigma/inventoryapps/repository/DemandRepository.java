@@ -37,7 +37,7 @@ public interface DemandRepository extends JpaRepository<Demand, String> {
 
     //Query Native Get Demand By Id
     @Query(value = """
-        SELECT * FROM trx_demand WHERE id = :#{#id};
+        SELECT * FROM trx_demand WHERE id = :#{#id}
     """, nativeQuery = true)
     Optional<Demand> findDemand(String id);
 

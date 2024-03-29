@@ -14,7 +14,7 @@ import java.util.UUID;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
 
-    //Query Native
+    //Query Native Insert Role
     @Modifying
     @Query(value = """
         INSERT INTO t_role (id, name) VALUES
@@ -31,7 +31,7 @@ public interface RoleRepository extends JpaRepository<Role, String> {
         flush();
     }
 
-    //Query Native
+    //Query Native Soft Delete
     @Query(value = """
         SELECT * FROM t_role WHERE name = :roleName
     """, nativeQuery = true)

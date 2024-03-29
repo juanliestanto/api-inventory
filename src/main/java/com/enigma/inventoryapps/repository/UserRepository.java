@@ -14,7 +14,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-    //Query Native
+    //Query Native Insert Data
     @Modifying
     @Query(value = """
         INSERT INTO m_user (id,email, password, role_id) VALUES
@@ -36,7 +36,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     //Query Method From Jpa Repository
     Optional<User> findByEmail(String email);
 
-    //Query Native
+    //Query Native Find User By Id
     @Query(value = """
         SELECT * FROM m_user WHERE id = :id
     """, nativeQuery = true)

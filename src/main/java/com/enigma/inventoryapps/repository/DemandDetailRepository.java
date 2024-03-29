@@ -34,6 +34,7 @@ public interface DemandDetailRepository extends JpaRepository<DemandDetail, Stri
         flush();
     }
 
+    //Query Native Update
     @Modifying
     @Transactional
     @Query(value = """
@@ -47,6 +48,7 @@ public interface DemandDetailRepository extends JpaRepository<DemandDetail, Stri
     """, nativeQuery = true)
     void updated (DemandDetail demandDetail);
 
+    //Transactional Native Update And Flush
     @Transactional
     default void updatedAndFlush(DemandDetail demandDetail){
         updated(demandDetail);
