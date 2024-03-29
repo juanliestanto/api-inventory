@@ -12,7 +12,6 @@ import java.util.List;
 public class DemandResponse {
     private String demandId;
     private String staffId;
-    private String adminId;
     private Long createdAt;
     private Long updatedAt;
     private List<DemandDetailResponse> detailRequests;

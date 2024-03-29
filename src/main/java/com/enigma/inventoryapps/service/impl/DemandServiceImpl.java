@@ -93,6 +93,10 @@ public class DemandServiceImpl implements DemandService {
         // TODO CHECK WHETHER THE QUANTITY RECEIVED IS NOT GREATER THAN THE DEMAND QUANTITY AND STOCK OF ITEMS
         if(demandDetail.getQuantityRequest() <= demandDetailRequest.getQuantityApprove() && demandDetail.getItem().getStock() <= demandDetailRequest.getQuantityApprove()) throw new DataIntegrityViolationException("BAD REQUEST(nominal value is greater than the limit)");
 
+        // TODO SET NEW STOCK ITEM
+        Item item = itemService.getEntityById(demandDetail.getItem().getId());
+        item.setStock(item.getStock() - demandDetailRequest.getQuantityApprove());
+
         //TODO SET DEMAND DETAIL STATUS TO APPROVE AND SET QUANTITY APPROVE
         DemandDetail responseDemandDetail = demandDetail.toBuilder()
                 .status(EStatus.APPROVED)
@@ -100,19 +104,16 @@ public class DemandServiceImpl implements DemandService {
                 .updatedAt(Instant.now().toEpochMilli())
                 .updatedBy(admin.getName())
                 .note(demandDetailRequest.getNote())
+                .item(item)
                 .build();
 
         demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
         demanDetailService.updateApproved(responseDemandDetail);
         demandRepository.saveAndFlush(demand);
 
-        //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE AND SET NEW STOCK
+        //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE
         List<DemandDetailResponse> response = demand.getDemandDetailList().stream()
-                .map(mapping -> {
-                    Item item = itemService.getEntityById(mapping.getItem().getId());
-                    item.setStock(mapping.getItem().getStock() - mapping.getQuantityApprove());
-                    return DemandDetailMapper.mapToResponse(mapping);
-                }).toList();
+                .map(DemandDetailMapper::mapToResponse).toList();
 
         return DemandMapper.mapToResponseTransaction(demand, admin, response);
     }

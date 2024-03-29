@@ -15,7 +15,6 @@ public class DemandMapper {
         return DemandResponse.builder()
                 .demandId(demand.getId())
                 .staffId(demand.getStaff().getId())
-                .adminId(admin.getId())
                 .createdAt(demand.getCreatedAt())
                 .updatedAt(demand.getUpdatedAt())
                 .detailRequests(response)
