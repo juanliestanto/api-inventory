@@ -64,15 +64,16 @@ public class DemandServiceImpl implements DemandService {
                 .demandDetailList(details)
                 .build();
 
+        demandRepository.insertAndFlush(demand);
+
         //TODO SET DEMAND TO DEMAND DETAIL
         List<DemandDetail> updateDemandDetails = details.stream()
                 .map(demands -> {
                     demands.setDemand(demand);
+                    demanDetailService.created(demands);
                     return demands;
                 })
                 .toList();
-
-        demandRepository.saveAndFlush(demand);
 
         return DemandMapper.mapToResponse(demand, updateDemandDetails);
     }
@@ -102,7 +103,7 @@ public class DemandServiceImpl implements DemandService {
                 .build();
 
         demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
-        demanDetailService.update(responseDemandDetail);
+        demanDetailService.updateApproved(responseDemandDetail);
         demandRepository.saveAndFlush(demand);
 
         //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE AND SET NEW STOCK
@@ -138,7 +139,7 @@ public class DemandServiceImpl implements DemandService {
                 .build();
 
         demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
-        demanDetailService.update(responseDemandDetail);
+        demanDetailService.updateRejected(responseDemandDetail);
         demandRepository.saveAndFlush(demand);
 
         //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE

@@ -10,6 +10,6 @@ public class DemandDetailRequest {
     private String demandId;
     private String itemId;
     private int quantity;
-    private int quantityApprove;
+    private Integer quantityApprove;
     private String note;
 }

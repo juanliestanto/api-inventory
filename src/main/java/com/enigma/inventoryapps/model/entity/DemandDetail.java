@@ -35,7 +35,7 @@ public class DemandDetail {
     private int quantityRequest;
 
     @Column(name = "quantity_approve")
-    private int quantityApprove;
+    private Integer quantityApprove;
 
     @Column(name = "updated_by")
     private String updatedBy;

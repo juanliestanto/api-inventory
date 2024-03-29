@@ -47,6 +47,12 @@ public interface DemandDetailRepository extends JpaRepository<DemandDetail, Stri
     """, nativeQuery = true)
     void updated (DemandDetail demandDetail);
 
+    @Transactional
+    default void updatedAndFlush(DemandDetail demandDetail){
+        updated(demandDetail);
+        flush();
+    }
+
     //Query Native Get Demand Detail By Id
     @Query(value = """
         SELECT * FROM trx_demand_detail WHERE id = :id

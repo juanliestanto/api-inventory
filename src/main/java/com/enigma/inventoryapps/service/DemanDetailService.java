@@ -6,7 +6,9 @@ public interface DemanDetailService {
 
     DemandDetail created(DemandDetail demandDetail);
 
-    DemandDetail update(DemandDetail demandDetail);
+    DemandDetail updateRejected(DemandDetail demandDetail);
+
+    DemandDetail updateApproved(DemandDetail demandDetail);
 
     DemandDetail findById (String id);
 }

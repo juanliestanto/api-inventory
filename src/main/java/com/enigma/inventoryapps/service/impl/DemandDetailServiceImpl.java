@@ -26,8 +26,13 @@ public class DemandDetailServiceImpl implements DemanDetailService {
     }
 
     @Override
-    public DemandDetail update(DemandDetail demandDetail) {
-        demandDetailRepository.updated(demandDetail);
+    public DemandDetail updateRejected(DemandDetail demandDetail) {
+        demandDetailRepository.updatedAndFlush(demandDetail);
         return demandDetail;
+    }
+
+    @Override
+    public DemandDetail updateApproved(DemandDetail demandDetail) {
+        return demandDetailRepository.saveAndFlush(demandDetail);
     }
 }

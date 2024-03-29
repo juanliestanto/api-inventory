@@ -15,7 +15,7 @@ public class DemandDetailResponse {
     private Item item;
     private EStatus status;
     private int quantityRequest;
-    private int quantityApprove;
+    private Integer quantityApprove;
     private String updatedBy;
     private Long updatedAt;
     private String note;
