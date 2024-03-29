@@ -16,14 +16,12 @@ public interface DemandDetailRepository extends JpaRepository<DemandDetail, Stri
     //Query Native Insert Demand Detail
     @Modifying
     @Query(value = """
-        INSERT INTO trx_demand_detail (id, demand_id, item_id, quantity_request, quantity_approve, status, updated_by,updated_at) VALUES
+        INSERT INTO trx_demand_detail (id, demand_id, item_id, quantity_request, status, updated_at) VALUES
         (:#{#demandDetail.id},
         :#{#demandDetail.demand.id},
         :#{#demandDetail.item.id},
         :#{#demandDetail.quantityRequest},
-        :#{#demandDetail.quantityApprove},
         :#{#demandDetail.status.name()},
-        :#{#demandDetail.updatedBy},
         :#{#demandDetail.updatedAt})
     """, nativeQuery = true)
     void insert (DemandDetail demandDetail);
@@ -35,6 +33,19 @@ public interface DemandDetailRepository extends JpaRepository<DemandDetail, Stri
         insert(demandDetail);
         flush();
     }
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+        UPDATE trx_demand_detail SET
+        quantity_approve = :#{#demandDetail.quantityApprove},
+        updated_at = :#{#demandDetail.updatedAt},
+        updated_by = :#{#demandDetail.updatedBy},
+        status = :#{#demandDetail.status.name()},
+        note = :#{#demandDetail.note}
+        WHERE id = :#{#demandDetail.id}
+    """, nativeQuery = true)
+    void updated (DemandDetail demandDetail);
 
     //Query Native Get Demand Detail By Id
     @Query(value = """

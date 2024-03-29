@@ -99,11 +99,10 @@ public class DemandServiceImpl implements DemandService {
                 .updatedAt(Instant.now().toEpochMilli())
                 .updatedBy(admin.getName())
                 .note(demandDetailRequest.getNote())
-                .demand(demand)
                 .build();
 
         demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
-        demanDetailService.created(responseDemandDetail);
+        demanDetailService.update(responseDemandDetail);
         demandRepository.saveAndFlush(demand);
 
         //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE AND SET NEW STOCK
@@ -132,14 +131,14 @@ public class DemandServiceImpl implements DemandService {
         //TODO SET DEMAND DETAIL STATUS TO REJECTED
         DemandDetail responseDemandDetail = demandDetail.toBuilder()
                 .status(EStatus.REJECTED)
+                .quantityApprove(0)
                 .updatedAt(Instant.now().toEpochMilli())
                 .updatedBy(admin.getName())
                 .note(demandDetailRequest.getNote())
-                .demand(demand)
                 .build();
 
         demand.setUpdatedAt(responseDemandDetail.getUpdatedAt());
-        demanDetailService.created(responseDemandDetail);
+        demanDetailService.update(responseDemandDetail);
         demandRepository.saveAndFlush(demand);
 
         //TODO MAPPING DEMAND DETAIL TO DEMAND DETAIL RESPONSE

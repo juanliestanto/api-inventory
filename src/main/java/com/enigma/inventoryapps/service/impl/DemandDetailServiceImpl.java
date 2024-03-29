@@ -24,4 +24,10 @@ public class DemandDetailServiceImpl implements DemanDetailService {
     public DemandDetail findById(String id) {
         return demandDetailRepository.findDemandDetail(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND), "Demand Detail Not Found"));
     }
+
+    @Override
+    public DemandDetail update(DemandDetail demandDetail) {
+        demandDetailRepository.updated(demandDetail);
+        return demandDetail;
+    }
 }
