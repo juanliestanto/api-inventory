@@ -16,13 +16,14 @@ public interface ItemRepository extends JpaRepository<Item, String> {
 
     //Query Native Insert Data
     @Modifying
+    @Transactional
     @Query(value = """
         INSERT INTO m_item (id, name, stock, unit,is_active) VALUES
         (:#{#item.id},
         :#{#item.name},
         :#{#item.stock},
         :#{#item.unit},
-        :#{#staff.isActive});
+        :#{#item.isActive});
     """, nativeQuery = true)
     void insert (Item item);
 
