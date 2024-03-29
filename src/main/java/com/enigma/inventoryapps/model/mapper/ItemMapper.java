@@ -4,6 +4,8 @@ import com.enigma.inventoryapps.model.entity.Item;
 import com.enigma.inventoryapps.model.request.ItemRequest;
 import com.enigma.inventoryapps.model.response.ItemResponse;
 
+import java.util.UUID;
+
 public class ItemMapper {
 
     public static ItemResponse mapToResponse(Item item){
@@ -17,6 +19,7 @@ public class ItemMapper {
 
     public static Item mapToEntity(ItemRequest itemRequest){
         return Item.builder()
+                .id(UUID.randomUUID().toString())
                 .name(itemRequest.getName())
                 .stock(itemRequest.getStock())
                 .unit(itemRequest.getUnit())
