@@ -151,13 +151,13 @@ public class DemandServiceImpl implements DemandService {
 
     @Override
     public DemandResponse getDemandById(String id) {
-        Demand demand = demandRepository.findById(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND),"Demand Not Found"));
+        Demand demand = demandRepository.findDemand(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND),"Demand Not Found"));
         return DemandMapper.mapToResponse(demand, demand.getDemandDetailList());
     }
 
     @Override
     public List<DemandResponse> getAllDemand() {
-        List<Demand> demand = demandRepository.findAll();
+        List<Demand> demand = demandRepository.findAllDemand();
         List<DemandResponse> response = new ArrayList<>();
 
         for(Demand demands : demand){
